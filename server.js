@@ -2,9 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import db from './config/dbmongodb.js';
-
 import bcrypt from 'bcryptjs';
-
+import users from './models/User.js';
 
 
 dotenv.config();
@@ -14,13 +13,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const corsOptions = {
-    origin: process.env.CORS_ORIGIN, 
-    origin: 'https://teste2-ia155b97q-marco-de-castros-projects.vercel.app/',
-    //origin: process.env.CORS_ORIGIN, 
+    origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
-    // aceitar todas as origens
-    origin: '*',
     optionsSuccessStatus: 200
   };
 
@@ -64,24 +59,26 @@ app.post('/cadastro', async (req, res) => {
 app.post('/login', async (req, res) => {
   const { email, senha } = req.body;
 
-  // Verifique se o usuário existe
-  const user = users.find(user => user.email === email);
-  if (!user) {
-    return res.status(400).json({ message: 'Usuário não encontrado.' });
-  }
+  try {
+    // Verifique se o usuário existe
+    const existingUser = await User.findOne({ email: email });
+    if (!existingUser) {
+      return res.status(400).json({ message: 'Usuário não encontrado.' });
+    }
 
-  // Verifique se a senha está correta
-  const senhaCorreta = await bcrypt.compare(senha, user.senha);
-  if (!senhaCorreta) {
-    return res.status(400).json({ message: 'Senha incorreta.' });
-  }
+    // Verifique se a senha está correta
+    const senhaCorreta = await bcrypt.compare(senha, existingUser.senha);
+    if (!senhaCorreta) {
+      return res.status(400).json({ message: 'Senha incorreta.' });
+    }
 
-  // Se tudo estiver correto, retorne uma mensagem de sucesso
-  res.status(200).json({ message: 'Login bem-sucedido.' });
+    // Se tudo estiver correto, retorne uma mensagem de sucesso
+    res.status(200).json({ message: 'Login bem-sucedido.' });
+  } catch (error) {
+    console.error('Erro no servidor:', error);
+    res.status(500).json({ message: 'Erro no servidor.' });
+  }
 });
-
-
-
 
   
 app.listen(PORT, () => {
