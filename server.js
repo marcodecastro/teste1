@@ -14,8 +14,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const corsOptions = {
-    origin: process.env.CORS_ORIGIN, //|| 'http://localhost:3000', 
-    //origin: 'https://frontend-1xcy1478e-marco-de-castros-projects.vercel.app/',
+    origin: process.env.CORS_ORIGIN, 
+    origin: 'https://teste2-ia155b97q-marco-de-castros-projects.vercel.app/',
     //origin: process.env.CORS_ORIGIN, 
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
