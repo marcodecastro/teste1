@@ -4,7 +4,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import db from './config/dbmongodb.js';
 import bcrypt from 'bcryptjs';
-import User from './models/User.js'; // Certifique-se de que este é o caminho correto para o seu modelo de usuário
+import User from './models/User.js'; 
 
 dotenv.config();
 
@@ -12,11 +12,17 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+const corsOptions = {
+  origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  optionsSuccessStatus: 200
+};
 
-app.use('/api', createProxyMiddleware({
-  target: 'https://teste1-xepg.onrender.com',
-  changeOrigin: true,
-}));
+app.use(cors(corsOptions));
+
+
+app.use(cors());
 
 const PORT = process.env.PORT || 5000;
 
