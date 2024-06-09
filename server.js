@@ -1,5 +1,4 @@
 import express from 'express';
-import { createProxyMiddleware } from 'http-proxy-middleware';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import db from './config/dbmongodb.js';
