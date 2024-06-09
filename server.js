@@ -1,4 +1,5 @@
 import express from 'express';
+import { createProxyMiddleware } from 'http-proxy-middleware';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import db from './config/dbmongodb.js';
@@ -11,15 +12,11 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const corsOptions = {
-  origin: '*', 
-  origin: process.env.CORS_ORIGIN || 'https://teste2-1sevdiksy-marco-de-castros-projects.vercel.app',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  optionsSuccessStatus: 200
-};
 
-app.use(cors(corsOptions));
+app.use('/api', createProxyMiddleware({
+  target: 'https://teste1-xepg.onrender.com',
+  changeOrigin: true,
+}));
 
 const PORT = process.env.PORT || 5000;
 
