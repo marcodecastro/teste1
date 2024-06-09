@@ -12,7 +12,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const corsOptions = {
-  origin: process.env.CORS_ORIGIN || 'https://teste2-rose.vercel.app/',
+  //origin: process.env.CORS_ORIGIN || 'https://teste2-rose.vercel.app/',
+  origin: process.env.CORS_ORIGIN, 
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   optionsSuccessStatus: 200
