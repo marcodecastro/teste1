@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const corsOptions = {
-  origin: process.env.CORS_ORIGIN || 'https://teste2-lt8x.onrender.com',
+  origin: process.env.CORS_ORIGIN,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   optionsSuccessStatus: 200
