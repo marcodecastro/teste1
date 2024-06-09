@@ -25,7 +25,7 @@ const PORT = process.env.PORT || 5000;
 
 // simple route
 app.get('/', (req, res) => {
-  res.json({ message: 'Welcome to my application.' });
+  res.json({ message: 'Welcome to my api.' });
 });
 
 // Rota de cadastro de usuário
